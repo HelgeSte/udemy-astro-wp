@@ -1,5 +1,7 @@
 import { useState } from "react";
 import Accordion from "./Accordion"
+import Profile from "./Profile"
+
 function App() {
   const [openAccordionId, setOpenAccordionId] = useState(null);
 
@@ -14,12 +16,8 @@ function App() {
   return <div>
     <Accordion id="my-profile" labelText="My profile" 
     open={openAccordionId === "my-profile"}
-      onClick={handleAccordionClick}
-    >
-        <div>
-        <strong>My first accordion</strong>
-        <p>My p tag</p>
-      </div>
+      onClick={handleAccordionClick}>
+        <Profile />
     </Accordion>
 
     <Accordion id="my-hobbies" labelText="My hobbie" 
