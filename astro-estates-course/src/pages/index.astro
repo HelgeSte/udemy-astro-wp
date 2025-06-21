@@ -1,0 +1,18 @@
+---
+import "../styles/global.css";
+console.log("HELLO THERE");
+const title = "HELLO ASTRO";
+---
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>Astro Basics</title>
+	</head>
+	<body>
+		<h1 class="bg-red-500">{title}</h1>
+	</body>
+</html>
