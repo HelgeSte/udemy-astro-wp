@@ -1,0 +1,17 @@
+---
+import type {Block} from '@wp-block-tools/styles';
+type Props = { /* typescript specific syntax, to specify Props type */
+ blocks: Block[]
+}
+const {blocks} = Astro.props;
+console.log("BLOCK FROM BLOCK RENDERER COMPONENT: ", blocks);
+---
+{blocks.map(block => {
+    switch(block.name){
+        case "core/post-content":
+            return <div>post content</div>
+        default:
+            return null;
+    }
+})}
+{/* Continue from lecture 2.12 - 5:15 */}

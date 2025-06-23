@@ -1,7 +1,30 @@
 ---
+import BlockRenderer from '../components/BlockRenderer.astro'
 import "../styles/global.css";
+import type {Block} from "@wp-block-tools/styles";
+
 console.log("HELLO THERE");
 const title = "HELLO ASTRO";
+const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
+	method: "POST",
+	headers: {
+		"content-type": "application/json"
+	},
+	body: JSON.stringify({
+		query: `
+		query PageQuery {
+			nodeByUri(uri: "/") {
+				... on Page {
+					id
+					blocks
+				}
+			}
+		}`
+	})
+});
+const {data} = await response.json();
+const blocks = data.nodeByUri?.blocks || [] as Block[]; {/* Blocks will awlays be an empty array, so we can default to an empty array */}
+console.log(data.nodeByUri);
 ---
 <!doctype html>
 <html lang="en">
@@ -13,6 +36,6 @@ const title = "HELLO ASTRO";
 		<title>Astro Basics</title>
 	</head>
 	<body>
-		<h1 class="bg-red-500">{title}</h1>
+		<BlockRenderer blocks={blocks} /> {/* pass blocks as props */}
 	</body>
 </html>
