@@ -1,0 +1,33 @@
+---
+type Props = {
+    title: string;
+    description: string; 
+};
+
+console.log("Using GraphQL URL:", import.meta.env.WPGRAPHQL_URL);
+const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
+	method: "POST",
+	headers: {
+		"content-type": "application/json"
+	},
+	body: JSON.stringify({
+		query: `
+		query MetadataQuery {
+			cssVariables
+		}`
+	})
+});
+const {data} = await response.json();
+const title = Astro.props.title; const description = Astro.props.description;
+// const { title, description } = Astro.props;
+---
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {!!data.cssVariables && <style set:html={`:root {${data.cssVariables}}`} />} {/*use  */}
+</head>
