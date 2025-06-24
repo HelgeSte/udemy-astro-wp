@@ -6,7 +6,7 @@ import CommonHead from '../components/CommonHead.astro';
 
 //console.log("Using GraphQL URL:", import.meta.env.WPGRAPHQL_URL);
 
-
+// Using WPGraphQL plugin for fetching data
 const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
 	method: "POST",
 	headers: {
@@ -19,6 +19,10 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
 				... on Page {
 					id
 					blocks
+					seo {
+						metaDesc
+						title
+					}
 				}
 			}
 		}`
@@ -26,11 +30,12 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
 });
 const {data} = await response.json();
 const blocks = data.nodeByUri?.blocks || [] as Block[]; {/* Blocks will awlays be an empty array, so we can default to an empty array */}
+const seo = data.nodeByUri?.seo;
 console.log(data.nodeByUri);
 ---
 <!doctype html>
 <html lang="en">
-	<CommonHead />
+	<CommonHead title={seo.title || ""} description={seo.metaDesc || ""} />
 	<body>
 		<BlockRenderer blocks={blocks} /> {/* pass blocks as props */}
 	</body>
