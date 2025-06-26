@@ -1,0 +1,25 @@
+Loadenv didn't work for me, i used dotenv.
+0 upvotes
+Javairo · Lecture 16 · 3 months ago
+Mi fix was this idk if was ok or not, but was the only way i found to make it work.
+
+// @ts-check
+import { defineConfig } from 'astro/config';
+import tailwindcss from '@tailwindcss/vite';
+import dotenv from 'dotenv';
+ 
+// Loading env
+dotenv.config();
+ 
+const imageDomain = process.env.PUBLIC_IMAGE_DOMAIN || ""; //fallback but i leave empty for testing purposes.
+console.log('IMAGE_DOMAIN que se usará:', imageDomain); // some logs
+ 
+// https: //astro.build/config
+export default defineConfig({
+  image:{
+    domains:[imageDomain]
+  },
+  vite: {
+    plugins: [tailwindcss()]
+  }
+});
