@@ -1,19 +1,15 @@
-// @ts-check
+// @ts-checkVITE_
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
-//import {loadEnv} from 'vite';
-import dotenv from 'dotenv';
-dotenv.config();
-
-//const { IMAGE_DOMAIN } = loadEnv(process.env.NODE_ENV, process.cwd());
-const imageDomain = process.env.PUBLIC_IMAGE_DOMAIN || "";
-console.log('IMAGE_DOMAIN: ', imageDomain);
+import {loadEnv} from 'vite';
+// The following variabled had to be prefixed with VITE_
+const {VITE_IMAGE_DOMAIN} = loadEnv(process.env.NODE_ENV, process.cwd(), "");
 
 // https://astro.build/config
 export default defineConfig({
   image: {
-    domains:[imageDomain]
+    domains: [VITE_IMAGE_DOMAIN],
   },
   vite: {
     plugins: [tailwindcss()]
