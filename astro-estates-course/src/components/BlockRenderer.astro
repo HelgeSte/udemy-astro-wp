@@ -1,8 +1,11 @@
 ---
 import BlockRendererInner from './BlockRenderer.astro' /* we wan't to use this component to render the inner blocks too */
+import Navigation from './Navigation.astro';
+import NavigationLink from './NavigationLink.astro';
 import {getBlockStyling} from "@wp-block-tools/styles"
 import type {Block} from '@wp-block-tools/styles';
 import { Image } from "astro:assets";
+
 type Props = { /* typescript specific syntax, to specify Props type */
  blocks: Block[]
 }
@@ -12,6 +15,27 @@ const {blocks} = Astro.props;
 {blocks.map(block => {
     const {styles, classes} = getBlockStyling(block);
     switch(block.name){
+        /*case "core/navigation-submenu":
+            return (
+                <NavigationSubmenu>
+                    <BlockRendererInner blocks={ block.innerBlocks || [] }/>
+                </NavigationSubmenu>
+            )*/
+        case "core/navigation-link":
+            return (
+                <NavigationLink
+                    classes={classes}
+                    styles={styles}
+                    label={block.attributes?.label || ""}
+                    url={block.attributes?.url || ""}
+                    />
+            )
+        case "core/navigation":
+            return <Navigation
+                classes={classes} 
+                styles={styles}>
+                    <BlockRendererInner blocks={ block.innerBlocks || [] }/>
+            </Navigation>
         case "core/paragraph":
             return <p class={classes} style={styles} set:html={block.attributes?.content}></p>
         case "core/columns":
@@ -24,13 +48,13 @@ const {blocks} = Astro.props;
             </div>
         case 'core/site-logo':
             return (
-                <div class={classes} style={styles}>ert
+                <div class={classes} style={styles}>
                     <Image 
                         height={block.attributes?.width || "50"}
                         width={block.attributes?.width || "50"}
                         src={block.attributes?.url || ""}
                         alt="site log"
-                    />æsj
+                    />
                 </div>
             )
         case "core/template-part":
