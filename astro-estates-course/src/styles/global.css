@@ -3,3 +3,11 @@
 /* https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-registering-sources */
 /* You might find a tailwind.config.mjs file in the root folder throughout this course. 
 That's because we're using tailwind version 4, whicn doesn't use a tailwind.config.mjs.*/
+
+@theme {
+    --color-event-horizon: var(--color--event-horizon);
+}
+
+/* 
+now, text-event-horizon or bg-event-horizon can be applied
+*/

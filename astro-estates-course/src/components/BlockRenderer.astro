@@ -2,6 +2,7 @@
 import BlockRendererInner from './BlockRenderer.astro' /* we wan't to use this component to render the inner blocks too */
 import Navigation from './Navigation.astro';
 import NavigationLink from './NavigationLink.astro';
+import NavigationSubmenu from './NavigationSubmenu.astro';
 import {getBlockStyling} from "@wp-block-tools/styles"
 import type {Block} from '@wp-block-tools/styles';
 import { Image } from "astro:assets";
@@ -15,12 +16,17 @@ const {blocks} = Astro.props;
 {blocks.map(block => {
     const {styles, classes} = getBlockStyling(block);
     switch(block.name){
-        /*case "core/navigation-submenu":
+        case "core/navigation-submenu":
             return (
-                <NavigationSubmenu>
+                <NavigationSubmenu
+                    classes={classes}
+                    styles={styles}
+                    label={block.attributes?.label || ""}
+                    url={block.attributes?.url || ""}
+                    >
                     <BlockRendererInner blocks={ block.innerBlocks || [] }/>
                 </NavigationSubmenu>
-            )*/
+            );
         case "core/navigation-link":
             return (
                 <NavigationLink
@@ -29,13 +35,14 @@ const {blocks} = Astro.props;
                     label={block.attributes?.label || ""}
                     url={block.attributes?.url || ""}
                     />
-            )
+            );
         case "core/navigation":
-            return <Navigation
+            return (<Navigation
                 classes={classes} 
                 styles={styles}>
                     <BlockRendererInner blocks={ block.innerBlocks || [] }/>
             </Navigation>
+            );
         case "core/paragraph":
             return <p class={classes} style={styles} set:html={block.attributes?.content}></p>
         case "core/columns":
