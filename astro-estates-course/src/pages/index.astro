@@ -39,3 +39,22 @@ const seo = data.nodeByUri?.seo;
 		<BlockRenderer blocks={blocks} /> {/* pass blocks as props */}
 	</body>
 </html>
+
+<script>
+	/*
+Example of fetching Umbraco Content Delivery API in the src/pages/index.astro file:
+(Source: https://docs.astro.build/en/guides/cms/umbraco/)
+---
+const res = await fetch('http://localhost/umbraco/delivery/api/v2/content?filter=contentType:article');
+const articles = await res.json();
+---
+<h1>Astro + Umbraco 🚀</h1>
+{
+  articles.items.map((article) => (
+      <h1>{article.name}</h1>
+      <p>{article.properties.articleDate}</p>
+      <div set:html={article.properties.content?.markup}></div>
+  ))
+}
+	*/
+</script>
