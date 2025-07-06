@@ -3,6 +3,37 @@ import BlockRenderer from '../components/BlockRenderer.astro'
 import type {Block} from "@wp-block-tools/styles";
 import CommonHead from '../components/CommonHead.astro';
 
+export async function getStaticPaths(){
+	const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
+		method: "POST",
+		headers: {
+			"content-type": "application/json"
+		},
+		body: JSON.stringify({
+			query: `
+			query AllPages {
+				pages(first:10000){ 
+					nodes {
+						uri
+						blocks
+						seo {
+							title
+							metaDesc
+						}
+					}
+				}
+			} 
+			`
+		})});
+	const {data} = await response.json();
+	//if it works, the address  http://localhost:4321/contact-us should not give us a 404 error
+	return data.pages.nodes.map((page: any) => ( // without any, intellisense think this is an error
+		{ // want to return an object
+		params: {slug: page.uri == "/" ? undefined : page.uri }
+		}
+	))
+}
+
 //console.log("Using GraphQL URL:", import.meta.env.WPGRAPHQL_URL);
 
 // Using WPGraphQL plugin for fetching data
