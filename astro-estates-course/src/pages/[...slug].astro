@@ -9,17 +9,20 @@ export async function getStaticPaths(){
 		headers: {
 			"content-type": "application/json"
 		},
+		/* uri was added later (not when he created the query in GraphQL) */
+		/* remove the following from the query, since lots of pages might crash the site:
+		 blocks
+			seo {
+				title
+				metaDesc
+			}
+		*/
 		body: JSON.stringify({
 			query: `
 			query AllPages {
 				pages(first:10000){ 
 					nodes {
 						uri
-						blocks
-						seo {
-							title
-							metaDesc
-						}
 					}
 				}
 			} 
@@ -27,16 +30,24 @@ export async function getStaticPaths(){
 		})});
 	const {data} = await response.json();
 	//if it works, the address  http://localhost:4321/contact-us should not give us a 404 error
-	return data.pages.nodes.map((page: any) => ( // without any, intellisense think this is an error
+	return data.pages.nodes.map((page: any) => ( // adding :any, so intellisense won't mark think this as an error
 		{ // want to return an object
-		params: {slug: page.uri == "/" ? undefined : page.uri }
+		params: {slug: page.uri == "/" ? undefined : page.uri },
+		// Pass down props
+		props: {
+			seo: page.seo,
+			blocks: page.blocks // pass down blocks 
+			}
 		}
 	))
 }
 
 //console.log("Using GraphQL URL:", import.meta.env.WPGRAPHQL_URL);
 
+/*
 // Using WPGraphQL plugin for fetching data
+/* going to uncomment end edit the response code for a single page, after 
+ removing blocks and seo from the query in getStaticPaths() */
 const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
 	method: "POST",
 	headers: {
@@ -44,8 +55,8 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
 	},
 	body: JSON.stringify({
 		query: `
-		query PageQuery {
-			nodeByUri(uri: "/") {
+		query PageQuery($uri: String!) {
+			nodeByUri(uri: $uri) {
 				... on Page {
 					id
 					blocks
@@ -55,12 +66,25 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
 					}
 				}
 			}
-		}`
-	})
+		}
+		`,
+		variables: {
+			uri: Astro.params.slug || "/",
+		},
+	}),
 });
 const {data} = await response.json();
-const blocks = data.nodeByUri?.blocks || [] as Block[]; {/* Blocks will awlays be an empty array, so we can default to an empty array */}
+//const {blocks, seo} = Astro.props;
+const blocks = data.nodeByUri?.blocks || [] as Block[];
 const seo = data.nodeByUri?.seo;
+// const {blocks, seo} = Astro.props; // ToDO: Find where
+/*
+const {data} = await response.json(); // passing down blocks via props in the "async function getStaticPaths()" function instead
+const blocks = data.nodeByUri?.blocks || [] as Block[]; // Blocks will awlays be an empty array, so we can default to an empty array
+const seo = data.nodeByUri?.seo;
+// grabbing blocks from props: */
+
+
 ---
 <!doctype html>
 <html lang="en">
