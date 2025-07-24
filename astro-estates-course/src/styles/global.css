@@ -1,12 +1,25 @@
-@import "tailwindcss";
-@source "../../node_modules/@wp-block-tools/styles";
-/* https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-registering-sources */
-/* You might find a tailwind.config.mjs file in the root folder throughout this course. 
-That's because we're using tailwind version 4, whicn doesn't use a tailwind.config.mjs.*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* So intertwined CSS ,anytime we want to target just HTML tags, we want to add
+those styles to the base layer. */
+@layer base {
+    body {
+        font-family: "Poppins", sans-serif;
+    }
+}
+
+@import "tailwindcss"; 
+@source "../../node_modules/@wp-block-tools/styles"; 
 
 @theme {
     --color-event-horizon: var(--color--event-horizon);
 }
+
+/* https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-registering-sources
+You might find a tailwind.config.mjs file in the root folder throughout this course. 
+That's because we're using tailwind version 4, whicn doesn't use a tailwind.config.mjs.*/
 
 /* 
 now, text-event-horizon or bg-event-horizon can be applied
