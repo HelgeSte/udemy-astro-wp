@@ -15,6 +15,7 @@ those styles to the base layer. */
 
 @theme {
     --color-event-horizon: var(--color--event-horizon);
+    --color-blast-off: var(--color--event-horizon);
 }
 
 /* https://tailwindcss.com/docs/detecting-classes-in-source-files#explicitly-registering-sources

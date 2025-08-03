@@ -1,0 +1,13 @@
+---
+import { joinClasses } from '../utils/joinClasses';
+import { replaceUrls } from '../utils/replaceUrls';
+type Props = { // These props needs to be specified when using <Button ... />
+    classes: string;
+    style: string;
+    url?: string;
+    content: string;
+}
+const {classes, style, url, content} = Astro.props;
+const href = replaceUrls(url || "#", Astro.url.host);
+---
+<a href={url} class={joinClasses("inline-block uppercase font-bold tracking-[1.3px] bg-blast-off rounded-full py-3 px-6")} style={style} set:html={content}></a>
