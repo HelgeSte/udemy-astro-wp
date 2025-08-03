@@ -6,6 +6,7 @@ That's because we're using tailwind version 4, whicn doesn't use a tailwind.conf
 
 @theme {
     --color-event-horizon: var(--color--event-horizon);
+    --color-blast-off: var(--color--event-horizon);
 }
 
 /* 
