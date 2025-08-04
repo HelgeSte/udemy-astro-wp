@@ -38,6 +38,12 @@ const {blocks} = Astro.props;
                 url={block.attributes?.url} 
                 height={block.attributes?.height}
                 width={block.attributes?.width}
+                dimRatio={block.attributes?.dimRatio}
+                overlayColor={block.attributes?.overlayColor}
+                customOverlayColor={block.attributes?.customOverlayColor}
+                minHeight={block.attributes?.minHeight}
+                minHeightUnit={block.attributes?.minHeightUnit}
+
             >
 
                 <BlockRendererInner blocks={ block.innerBlocks || [] }/>
