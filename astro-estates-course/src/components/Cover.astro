@@ -9,8 +9,18 @@ type Props = { /* For type safety */
     url?: string; /* ? because this is an optional prop, that has to be of type string */
     height?: number;
     width?: number;
+    dimRatio?: number;
+    overlayColor?: string;
+    customOverlayColor?: string;
 };
-const {classes, styles, url, height, width} = Astro.props;
+const {classes, styles, url, height, width, dimRatio = 50, overlayColor, customOverlayColor } = Astro.props;
+
+let overlayStyle = "";
+if(customOverlayColor){
+    overlayStyle = `background: ${customOverlayColor}`;
+} else {
+    overlayStyle = `background: green`;
+}
 ---
 <div class={joinClasses(classes, "relative")} style={styles}>
     {
@@ -22,6 +32,7 @@ const {classes, styles, url, height, width} = Astro.props;
                 src={url} 
                 alt=""
                 />)};
+    <div class="absolute top-0 right-0 bottom-0 left-0 bg-black !max-w-full !mt-0" style={`opacity: ${dimRatio / 100}; ${overlayStyle}`}></div>
     <div class="z=10 relative">
         <slot />
     </div>
