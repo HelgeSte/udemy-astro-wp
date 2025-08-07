@@ -10,6 +10,10 @@ those styles to the base layer. */
     }
 }
 
+h1, h2, h3, h4, h5, h6 {
+    font-weight: bold;
+}
+
 @import "tailwindcss"; 
 @source "../../node_modules/@wp-block-tools/styles"; 
 
