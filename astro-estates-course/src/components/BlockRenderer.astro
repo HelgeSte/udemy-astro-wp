@@ -19,6 +19,15 @@ const {blocks} = Astro.props;
 {blocks.map(block => {
     const {styles, classes} = getBlockStyling(block);
     switch(block.name){
+        case 'core/image':
+            return <Image 
+                src={block.attributes?.url}
+                height={block.attributes?.height}
+                width={block.attributes?.width}
+                class={classes}
+                style={styles}
+                alt=""
+            />
         case "core/button": /* look at case futher down for core/buttons (core/button is in cure/buttons) */
          return <Button classes={classes} style={styles} url={block.attributes?.url} content={block.attributes?.content || "" } />
         case "core/heading":
