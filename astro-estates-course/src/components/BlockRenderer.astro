@@ -1,8 +1,9 @@
 ---
 import BlockRendererInner from './BlockRenderer.astro' /* we wan't to use this component to render the inner blocks too */
 import Navigation from './Navigation.astro';
-import Cover from './Cover.astro'
-import TickItem from './TickItem.astro'
+import Cover from './Cover.astro';
+import TickItem from './TickItem.astro';
+import SocialLink from './SocialLInk.astro';
 import Button from './Button.astro';
 import Heading from './Heading.astro';
 import NavigationLink from './NavigationLink.astro';
@@ -108,11 +109,19 @@ const {blocks} = Astro.props;
             </div>
             );
         case "core/buttons": /* look at case higher up for core/button */
+        case "core/social-links":
             return (
                 <div class={classes} style={styles}>
                     <BlockRendererInner blocks={block.innerBlocks || [] } />
                 </div>
             );
+        case "core/social-link":
+            return <SocialLink 
+                url={block.attributes?.url} 
+                service={block.attributes?.service} 
+                classes={classes}
+                styles={styles}  
+                />;
         case 'core/site-logo':
             return (
                 <div class={classes} style={styles}>
