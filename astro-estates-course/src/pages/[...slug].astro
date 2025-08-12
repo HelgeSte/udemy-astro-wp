@@ -25,13 +25,18 @@ export async function getStaticPaths(){
 						uri
 					}
 				}
+				properties(first: 10000) {
+    				nodes {
+      					uri
+    				}
+  				}
 			} 
 			`
 		})});
 	const {data} = await response.json();
 	//if it works, the address  http://localhost:4321/contact-us should not give us a 404 error
-	return data.pages.nodes.map((page: any) => ( // adding :any, so intellisense won't mark think this as an error
-		{ // want to return an object
+	return [...data.pages.nodes, ...data.properties.nodes].map((page: any) => ( // adding array to data.pages.nodes, and using the spread operator								
+		{ // ( spread + the array is used to combine the pages the properties into one single array )
 		params: {slug: page.uri == "/" ? undefined : page.uri },
 		// Pass down props
 		props: {
@@ -57,7 +62,7 @@ const response = await fetch(`${import.meta.env.WPGRAPHQL_URL}`, {
 		query: `
 		query PageQuery($uri: String!) {
 			nodeByUri(uri: $uri) {
-				... on Page {
+				... on ContentNode {
 					id
 					blocks
 					seo {
