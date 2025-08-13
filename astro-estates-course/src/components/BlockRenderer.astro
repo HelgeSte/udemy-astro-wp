@@ -21,6 +21,16 @@ const {blocks} = Astro.props;
 {blocks.map(block => {
     const {styles, classes} = getBlockStyling(block);
     switch(block.name){
+        case "core/gallery":
+            return (
+                <div class={classes} style={styles}>
+                    {(block.innerBlocks || []).map((innerBlock) => (
+                        <div>
+                        <BlockRendererInner blocks={[innerBlock]} />
+                        </div>
+                    ))}
+                </div>
+            );
         case "astroestates/tick-item":
             return <TickItem>
                <BlockRendererInner blocks={block.innerBlocks || []} />
@@ -32,10 +42,11 @@ const {blocks} = Astro.props;
                 width={block.attributes?.width}
                 class={classes}
                 style={styles}
-                alt=""
+                alt="core/image"
             />
         case "core/button": /* look at case futher down for core/buttons (core/button is in cure/buttons) */
-         return <Button classes={classes} style={styles} url={block.attributes?.url} content={block.attributes?.content || "" } />
+            return <Button classes={classes} style={styles} url={block.attributes?.url} content={block.attributes?.content || "" } />
+        case "core/post-title":
         case "core/heading":
             return (
             <Heading 
